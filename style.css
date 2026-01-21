@@ -37,14 +37,14 @@ body {
 .subtitle {
   font-size: 18px;
   margin-top: 8px;
-  color: #ecfdf5; /* brighter, clearer */
-  font-weight: 500;
+  color: #064e3b; /* dark forest green */
+  font-weight: 600;
 }
 
 .preface {
   font-size: 14px;
   margin-top: 14px;
-  color: #d1fae5; /* better contrast */
+  color: #022c22; /* very dark green */
 }
 
 
