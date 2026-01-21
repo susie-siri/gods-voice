@@ -36,15 +36,17 @@ body {
 
 .subtitle {
   font-size: 18px;
-  margin-top: 6px;
-  color: #dcfce7;
+  margin-top: 8px;
+  color: #ecfdf5; /* brighter, clearer */
+  font-weight: 500;
 }
 
 .preface {
   font-size: 14px;
   margin-top: 14px;
-  color: #bbf7d0;
+  color: #d1fae5; /* better contrast */
 }
+
 
 /* =========================
    GENERIC PAGE CARD
