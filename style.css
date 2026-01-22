@@ -137,3 +137,11 @@ section {
   color: #065f46;
   margin-bottom: 24px;
 }
+
+.day-screen {
+  display: none;
+}
+
+.day-screen.active {
+  display: block;
+}
