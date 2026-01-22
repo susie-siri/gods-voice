@@ -961,6 +961,7 @@
 
 
 
+<button id="shareBtn">Share Today’s Scripture</button>
 
 
   <div class="nav-buttons">
@@ -973,6 +974,8 @@
   const screens = document.querySelectorAll('.day-screen');
   const nextBtn = document.querySelector('.next-btn');
   const prevBtn = document.querySelector('.prev-btn');
+  const shareBtn = document.getElementById('shareBtn');
+
   let current = 0;
 
   function showScreen(index) {
@@ -997,10 +1000,23 @@
     }
   });
 
+  shareBtn.addEventListener('click', () => {
+    const activeScreen = screens[current];
+    const text = activeScreen.innerText;
+
+    if (navigator.share) {
+      navigator.share({
+        title: "Gods Voice — Daily Scripture",
+        text: text,
+        url: window.location.href
+      });
+    } else {
+      alert("Sharing not supported on this device.");
+    }
+  });
+
   showScreen(current);
 </script>
-
-
 
 
 </body>
