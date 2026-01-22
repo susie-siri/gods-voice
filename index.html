@@ -9,7 +9,7 @@
 <body>
 
 <!-- SCREEN 1: APP INTRO -->
-<section class="screen intro-screen">
+<section class="screen intro-screen active">
   <h1>GOD’S VOICE</h1>
   <p class="subtitle">Daily Bible Scriptures</p>
   <p class="edition">2026 Edition • NKJV</p>
@@ -42,7 +42,7 @@
 </section>
 
 <!-- SCREEN 4: DAY 1 -->
-<section class="screen day-screen active">
+<section class="screen day-screen">
   <h2>Day 1 • January 1</h2>
   <h3>Love</h3>
   <p class="scripture">
@@ -50,6 +50,7 @@
     that whoever believes in Him should not perish but have everlasting life.”
   </p>
   <p class="reference">John 3:16 (NKJV)</p>
+
 </section>
 
 
@@ -943,6 +944,49 @@
   <p class="scripture">"The Lord lift up His countenance upon you, And give you peace."</p>
   <p class="reference">Numbers 6:26 (NKJV)</p>
 </section>
+
+
+
+
+  <div class="nav-buttons">
+  <button class="prev-btn">← Previous Day</button>
+  <button class="next-btn">Next Day →</button>
+</div>
+
+
+<script>
+  const screens = document.querySelectorAll('.day-screen');
+  const nextBtn = document.querySelector('.next-btn');
+  const prevBtn = document.querySelector('.prev-btn');
+  let current = 0;
+
+  function showScreen(index) {
+    screens.forEach(screen => screen.classList.remove('active'));
+    screens[index].classList.add('active');
+
+    prevBtn.style.display = index === 0 ? 'none' : 'inline-block';
+    nextBtn.style.display = index === screens.length - 1 ? 'none' : 'inline-block';
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if (current < screens.length - 1) {
+      current++;
+      showScreen(current);
+    }
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (current > 0) {
+      current--;
+      showScreen(current);
+    }
+  });
+
+  showScreen(current);
+</script>
+
+
+
 
 </body>
 </html>
