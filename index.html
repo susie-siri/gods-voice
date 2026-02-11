@@ -2824,7 +2824,8 @@ const calendarGrid = document.getElementById('calendarGrid');
 const favoritesList = document.getElementById('favoritesList');
 
 let current = 0;
-let favorites = []; // store liked scriptures
+let favorites = JSON.parse(localStorage.getItem("favorites")) || []; // load saved favorites
+
 
 // -----------------------------
 // HELPER FUNCTIONS
@@ -2906,6 +2907,8 @@ loveBtn.onclick = () => {
       loveBtn.classList.add('liked');
     }
     renderFavorites();
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+
   };
 
 // -----------------------------
@@ -2943,6 +2946,9 @@ function renderFavorites() {
       favorites = favorites.filter(f => f.index !== fav.index);
       if(current === fav.index) loveBtn.classList.remove('liked');
       renderFavorites();
+    
+      localStorage.setItem("favorites", JSON.stringify(favorites)); // ✅ save after removal
+ 
     };
 
     favoritesList.appendChild(favDiv);
