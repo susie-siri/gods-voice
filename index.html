@@ -2831,10 +2831,11 @@ let favorites = JSON.parse(localStorage.getItem("favorites")) || []; // load sav
 // HELPER FUNCTIONS
 // -----------------------------
 function getDayOfYear(date) {
-  const start = new Date(date.getFullYear(), 0, 0);
-  const diff = date - start;
-  return Math.floor(diff / (1000 * 60 * 60 * 24));
+  const start = new Date(Date.UTC(date.getFullYear(), 0, 1));
+  const now = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+  return Math.floor((now - start) / (1000 * 60 * 60 * 24));
 }
+
 
 function hideAllScreens() {
   allScreens.forEach(s => s.classList.remove('active'));
@@ -2993,11 +2994,11 @@ function generateCalendar(year) {
       dateBtn.textContent = day;
 
       const dateObj = new Date(year, monthIndex, day);
-      const dayOfYear = getDayOfYear(dateObj) - 1;
+      const dayOfYear = getDayOfYear(dateObj);
+      dateBtn.onclick = () => showScreen(dayOfYear);
+      calendar.appendChild(dateBtn);
 
-      dateBtn.onclick = ()=> showScreen(dayOfYear);
-        calendar.appendChild(dateBtn);
-      }
+     }
 
       monthContainer.appendChild(calendar);
       calendarGrid.appendChild(monthContainer);
