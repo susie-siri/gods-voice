@@ -1,62 +1,91 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GODS VOICE</title>
-
-  <!-- Styles -->
+  <title>GOD'S VOICE</title>
   <link rel="stylesheet" href="style.css">
-
-  <!-- App Icon (iOS) -->
-  <link rel="apple-touch-icon" href="icon.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="GODS VOICE">
-
-  <!-- Android / PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#000000">
 </head>
-
-
 <body>
-<!-- SCREEN 1: APP INTRO -->
-<section class="screen intro-screen active">
-  <h1>GOD’S VOICE</h1>
-  <p class="subtitle">Daily Bible Scriptures</p>
-  <p class="edition">2026 Edition • NKJV</p>
-</section>
 
-<!-- SCREEN 2: PREFACE -->
-<section class="screen preface-screen">
-  <h2>Preface</h2>
-  <p>Susie — Building my first app.</p>
-  <p>
-    GOD’S VOICE is a daily Bible scripture app designed to guide believers
-    through God’s Word every day of the year, rooted in the Fruit of the Spirit.
-  </p>
-</section>
+  <!-- NAV BAR -->
+  <nav class="nav">
+    <button id="homeBtn" class="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
 
-<!-- SCREEN 3: FRUIT OF THE SPIRIT -->
-<section class="screen fruits-screen">
-  <h2>Fruit of the Spirit</h2>
-  <div class="fruits-grid">
-    <div>Love</div>
-    <div>Joy</div>
-    <div>Peace</div>
-    <div>Patience</div>
-    <div>Kindness</div>
-    <div>Goodness</div>
-    <div>Faithfulness</div>
-    <div>Gentleness</div>
-    <div>Self-Control</div>
+  <!-- HOME SCREEN -->
+  <section id="home" class="screen active intro-screen">
+    <h1>GOD’S VOICE</h1>
+    <p class="subtitle">Daily Bible Scriptures</p>
+    <p class="edition">2026 Edition • NKJV</p>
+
+    <!-- PREFACE INSIDE HOME -->
+    <div id="preface" class="preface-screen">
+      <h2>Preface</h2>
+      <p>Susie — Building my first app.</p>
+      <p>GOD’S VOICE is a daily Bible scripture app designed to guide believers through God’s Word every day of the year, rooted in the Fruit of the Spirit.</p>
+    </div>
+
+    <!-- FRUITS INSIDE HOME -->
+    <div id="fruits" class="fruits-screen">
+      <h2>Fruit of the Spirit</h2>
+      <div class="fruits-grid">
+        <div>Love</div>
+        <div>Joy</div>
+        <div>Peace</div>
+        <div>Patience</div>
+        <div>Kindness</div>
+        <div>Goodness</div>
+        <div>Faithfulness</div>
+        <div>Gentleness</div>
+        <div>Self-Control</div>
+      </div>
+    </div>
+
+    <!-- BUTTONS -->
+   <button id="todayBtn" class="today-btn">📖 Today’s Scripture</button>
+    <button id="calendarBtn" class="calendar-btn">📅 View 2026 Calendar</button>
+    <button id="homeFavoritesBtn" class="favorite-btn">❤️ Favorites</button>
+  </section>
+
+  <!-- TODAY SCRIPTURE SCREEN -->
+  <section id="todayScreen" class="screen">
+    <div id="dayReader">
+      <div id="scriptureContent"></div>
+      <button id="prevDayBtn">← Previous Day</button>
+      <button id="nextDayBtn">Next Day →</button>
+      <button id="shareBtn">Share Today’s Scripture</button>
+
+<!-- Only heart button for liking scripture -->
+      <button id="loveBtn" class="favorite-btn">❤️ Like</button>
+    </div>
+  </section>
+
+  <!-- CALENDAR SCREEN -->
+  <section id="calendarScreen" class="screen">
+    <div id="calendarGrid" class="calendar-grid"></div>
+  </section>
+
+  <!-- FAVORITES SCREEN -->
+<section id="favoritesScreen" class="screen favorites-screen">
+  <h2>Favorites</h2>
+  <div id="favoritesList">
   </div>
 </section>
 
-<!-- SCREEN 4: DAY 1 -->
 
+</body>
+
+</html>
+
+    <!-- ALL 365 DAY SCREENS -->
+    
+<div id="dayReader">
+<!-- SCREEN 4: DAY 1 -->
 <section class="screen day-screen">
   <h2>Day 1 • January 1</h2>
   <h3>Love</h3>
@@ -2763,81 +2792,208 @@
   <p class="reference">Romans 2:4 (NKJV)</p>
 </section>
 
+ <script>
+// -----------------------------
+// GET ELEMENTS
+// -----------------------------
+const allScreens = document.querySelectorAll('.screen');
+const homeScreen = document.getElementById('home');
+const todayScreen = document.getElementById('todayScreen');
+const calendarScreen = document.getElementById('calendarScreen');
+const favoritesScreen = document.getElementById('favoritesScreen');
 
-<button id="shareBtn">Share Today’s Scripture</button>
+const screens = document.querySelectorAll('.day-screen');
+const dayReader = document.getElementById('dayReader');
+const prevBtn = document.getElementById('prevDayBtn');
+const nextBtn = document.getElementById('nextDayBtn');
+const shareBtn = document.getElementById('shareBtn');
+ const loveBtn = document.getElementById('loveBtn'); // heart on scripture page
+  const homeFavoritesBtn = document.getElementById('homeFavoritesBtn'); // home favorites button
+
+const homeBtn = document.getElementById('homeBtn');
+const todayBtn = document.getElementById('todayBtn');
+const calendarBtn = document.getElementById('calendarBtn');
+const scriptureContent = document.getElementById('scriptureContent');
+const calendarGrid = document.getElementById('calendarGrid');
+const favoritesList = document.getElementById('favoritesList');
+
+let current = 0;
+let favorites = []; // store liked scriptures
+
+// -----------------------------
+// HELPER FUNCTIONS
+// -----------------------------
+function getDayOfYear(date) {
+  const start = new Date(date.getFullYear(), 0, 0);
+  const diff = date - start;
+  return Math.floor(diff / (1000 * 60 * 60 * 24));
+}
+
+function hideAllScreens() {
+  allScreens.forEach(s => s.classList.remove('active'));
+}
+
+function isFavorite(index) {
+  return favorites.some(f => f.index === index);
+}
+
+// -----------------------------
+// SHOW SCRIPTURE
+// -----------------------------
+function showScreen(index) {
+  const screen = screens[index];
+  if (!screen) return;
+  current = index;
+
+   scriptureContent.innerHTML = `
+      <h2>${screen.querySelector('h2')?.innerText || 'Day'}</h2>
+      <h3>${screen.querySelector('h3')?.innerText || ''}</h3>
+      <p>${screen.querySelector('.scripture')?.innerText || ''}</p>
+      <p><em>${screen.querySelector('.reference')?.innerText || ''}</em></p>
+    `;
+
+  hideAllScreens();
+  todayScreen.classList.add('active');
+
+  // Update heart color
+  if (isFavorite(index)) loveBtn.classList.add('liked');
+  else loveBtn.classList.remove('liked');
+}
+
+// -----------------------------
+// NAVIGATION BUTTONS
+// -----------------------------
+prevBtn.onclick = () => { if(current>0) showScreen(--current); };
+nextBtn.onclick = () => { if(current<screens.length-1) showScreen(++current); };
+
+shareBtn.onclick = () => {
+  const text = screens[current]?.innerText || "Today's scripture";
+  if(navigator.share) navigator.share({ title:"God's Voice", text, url:window.location.href });
+  else alert("Sharing not supported.");
+};
+
+  todayBtn.onclick = () => showScreen(getDayOfYear(new Date())-1);
+  calendarBtn.onclick = () => { hideAllScreens(); calendarScreen.classList.add('active'); };
+  homeBtn.onclick = () => { hideAllScreens(); homeScreen.classList.add('active'); };
 
 
-  <div class="nav-buttons">
-  <button class="prev-btn">← Previous Day</button>
-  <button class="next-btn">Next Day →</button>
-</div>
 
+// -----------------------------
+// FAVORITE BUTTON
+// -----------------------------
+loveBtn.onclick = () => {
+    const screen = screens[current];
+    if (!screen) return;
 
-
-<script>
-
-
-  const screens = document.querySelectorAll('.day-screen');
-  const nextBtn = document.querySelector('.next-btn');
-  const prevBtn = document.querySelector('.prev-btn');
-  const shareBtn = document.getElementById('shareBtn');
-
-  function getDayOfYear(date) {
-    const start = new Date(date.getFullYear(), 0, 0);
-    const diff = date - start;
-    const oneDay = 1000 * 60 * 60 * 24;
-    return Math.floor(diff / oneDay);
-  }
-
-  // 🔹 Set current day automatically
-  const today = new Date();
-  let current = getDayOfYear(today) - 1;
-
-  // Safety limits
-  if (current < 0) current = 0;
-  if (current >= screens.length) current = screens.length - 1;
-
-  function showScreen(index) {
-    screens.forEach(screen => screen.classList.remove('active'));
-    screens[index].classList.add('active');
-
-    prevBtn.style.display = index === 0 ? 'none' : 'inline-block';
-    nextBtn.style.display = index === screens.length - 1 ? 'none' : 'inline-block';
-  }
-
-  nextBtn.addEventListener('click', () => {
-    if (current < screens.length - 1) {
-      current++;
-      showScreen(current);
-    }
-  });
-
-  prevBtn.addEventListener('click', () => {
-    if (current > 0) {
-      current--;
-      showScreen(current);
-    }
-  });
-
-  shareBtn.addEventListener('click', () => {
-    const activeScreen = screens[current];
-    const text = activeScreen.innerText;
-
-    if (navigator.share) {
-      navigator.share({
-        title: "Gods Voice — Daily Scripture",
-        text: text,
-        url: window.location.href
-      });
+    const favIndex = favorites.findIndex(f => f.index === current);
+    if (favIndex >= 0) {
+      favorites.splice(favIndex, 1);
+      loveBtn.classList.remove('liked');
     } else {
-      alert("Sharing not supported on this device.");
+      favorites.push({
+        index: current,
+        title: screen.querySelector('h2')?.innerText || 'Day',
+        subtitle: screen.querySelector('h3')?.innerText || '',
+        text: screen.querySelector('.scripture')?.innerText || '',
+        reference: screen.querySelector('.reference')?.innerText || ''
+      });
+      loveBtn.classList.add('liked');
     }
+    renderFavorites();
+  };
+
+// -----------------------------
+  // FAVORITES FROM HOME
+  // -----------------------------
+  homeFavoritesBtn.onclick = () => {
+    hideAllScreens();
+    favoritesScreen.classList.add('active');
+    renderFavorites();
+  };
+
+
+// -----------------------------
+// RENDER FAVORITES
+// -----------------------------
+function renderFavorites() {
+  favoritesList.innerHTML = "";
+  if (favorites.length === 0) {
+    favoritesList.innerHTML = '<p style="text-align:center; color:#065f46;">No favorites yet ❤️</p>';
+    return;
+  }
+
+  favorites.forEach(fav => {
+    const favDiv = document.createElement("div");
+    favDiv.classList.add("fruit-card"); // use same styling as fruits
+    favDiv.innerHTML = `
+      <h3>${fav.title}</h3>
+      <h4>${fav.subtitle}</h4>
+      <p>${fav.text}</p>
+      <p><em>${fav.reference}</em></p>
+      <button class="removeFavBtn"> Remove</button>
+    `;
+
+    favDiv.querySelector(".removeFavBtn").onclick = () => {
+      favorites = favorites.filter(f => f.index !== fav.index);
+      if(current === fav.index) loveBtn.classList.remove('liked');
+      renderFavorites();
+    };
+
+    favoritesList.appendChild(favDiv);
   });
+}
 
-  // 🔹 Show today's scripture on load
-  showScreen(current);
+
+// -----------------------------
+// CALENDAR
+// -----------------------------
+function generateCalendar(year) {
+  calendarGrid.innerHTML = "";
+  const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+  months.forEach((monthName, monthIndex) => {
+    const monthContainer = document.createElement("div");
+    monthContainer.classList.add("month");
+
+    const title = document.createElement("h3");
+    title.textContent = monthName + " " + year;
+    monthContainer.appendChild(title);
+
+    const calendar = document.createElement("div");
+    calendar.classList.add("calendar");
+
+    ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(day=>{
+      const dayEl = document.createElement("div");
+      dayEl.classList.add("day-header");
+      dayEl.textContent = day;
+      calendar.appendChild(dayEl);
+    });
+
+    const firstDay = new Date(year, monthIndex, 1).getDay();
+    const totalDays = new Date(year, monthIndex + 1, 0).getDate();
+
+    for(let i=0;i<firstDay;i++) calendar.appendChild(document.createElement("div"));
+
+    for(let day=1; day<=totalDays; day++){
+      const dateBtn = document.createElement("button");
+      
+      dateBtn.classList.add("date-btn");
+      dateBtn.textContent = day;
+
+      const dateObj = new Date(year, monthIndex, day);
+      const dayOfYear = getDayOfYear(dateObj) - 1;
+
+      dateBtn.onclick = ()=> showScreen(dayOfYear);
+        calendar.appendChild(dateBtn);
+      }
+
+      monthContainer.appendChild(calendar);
+      calendarGrid.appendChild(monthContainer);
+    });
+  }
+
+generateCalendar(2026);
 </script>
-
 
 </body>
 </html>
