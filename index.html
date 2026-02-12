@@ -60,15 +60,21 @@
 
   <!-- TODAY SCRIPTURE SCREEN -->
   <section id="todayScreen" class="screen">
-    <div id="dayReader">
-      <div id="scriptureContent"></div>
-      <button id="prevDayBtn">← Previous Day</button>
-      <button id="nextDayBtn">Next Day →</button>
-      <button id="shareBtn">Share Today’s Scripture</button>
+   
+ <div id="dayReader">
+  <!-- Gradient wrapper for scripture -->
+  <div id="scriptureBox">
+    <div id="scriptureContent"></div>
+  </div>
 
-<!-- Only heart button for liking scripture -->
-      <button id="loveBtn" class="favorite-btn">❤️ Like</button>
-    </div>
+  <!-- Buttons stay outside gradient -->
+  <button id="prevDayBtn">← Previous Day</button>
+  <button id="nextDayBtn">Next Day →</button>
+  <button id="shareBtn">Share Today’s Scripture</button>
+  <button id="loveBtn" class="favorite-btn">❤️ Like</button>
+</div>
+
+
   </section>
 
   <!-- CALENDAR SCREEN -->
@@ -2853,7 +2859,8 @@ function showScreen(index) {
   if (!screen) return;
   current = index;
 
-   scriptureContent.innerHTML = `
+
+ scriptureContent.innerHTML = `
       <h2>${screen.querySelector('h2')?.innerText || 'Day'}</h2>
       <h3>${screen.querySelector('h3')?.innerText || ''}</h3>
       <p>${screen.querySelector('.scripture')?.innerText || ''}</p>
@@ -2880,7 +2887,8 @@ shareBtn.onclick = () => {
   else alert("Sharing not supported.");
 };
 
-  todayBtn.onclick = () => showScreen(getDayOfYear(new Date())-1);
+
+ todayBtn.onclick = () => showScreen(getDayOfYear(new Date()));
   calendarBtn.onclick = () => { hideAllScreens(); calendarScreen.classList.add('active'); };
   homeBtn.onclick = () => { hideAllScreens(); homeScreen.classList.add('active'); };
 
@@ -2909,8 +2917,7 @@ loveBtn.onclick = () => {
     }
     renderFavorites();
     localStorage.setItem("favorites", JSON.stringify(favorites));
-
-  };
+ };
 
 // -----------------------------
   // FAVORITES FROM HOME
@@ -2932,7 +2939,7 @@ function renderFavorites() {
     return;
   }
 
-  favorites.forEach(fav => {
+ favorites.forEach(fav => {
     const favDiv = document.createElement("div");
     favDiv.classList.add("fruit-card"); // use same styling as fruits
     favDiv.innerHTML = `
@@ -2955,7 +2962,6 @@ function renderFavorites() {
     favoritesList.appendChild(favDiv);
   });
 }
-
 
 // -----------------------------
 // CALENDAR
@@ -2982,7 +2988,7 @@ function generateCalendar(year) {
       calendar.appendChild(dayEl);
     });
 
-    const firstDay = new Date(year, monthIndex, 1).getDay();
+const firstDay = new Date(year, monthIndex, 1).getDay();
     const totalDays = new Date(year, monthIndex + 1, 0).getDate();
 
     for(let i=0;i<firstDay;i++) calendar.appendChild(document.createElement("div"));

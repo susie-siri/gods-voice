@@ -126,14 +126,36 @@ body {
   margin-top: 16px;
 }
 
+/* =========================
+   TODAY SCRIPTURE CARD
+========================= */
 #scriptureContent {
-  background: linear-gradient(180deg, #f0fdf4, #ecfdf5);
-  border-left: 4px solid #22c55e;
+  background: linear-gradient(180deg, #f0fdf4, #ecfdf5); /* match favorites card base */
+  border-left: 4px solid #16a34a; /* same green border as favorites */
+  color: #065f46;                  /* text color to match favorites */
   padding: 22px;
   border-radius: 18px;
   font-size: 15px;
-  color: #1f2937;
   margin-bottom: 16px;
+}
+
+/* =========================
+   CALENDAR DATE BUTTONS
+========================= */
+.date-btn {
+  border: none;
+  background: linear-gradient(180deg, #f0fdf4, #ecfdf5); /* match favorites card */
+  color: #065f46;                                         /* text same green as favorites */
+  border-radius: 6px;
+  padding: 6px 0;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.date-btn:hover {
+  background: #16a34a; /* darker green on hover */
+  color: white;
 }
 
 #shareBtn {
@@ -485,3 +507,36 @@ body {
   max-width: 250px;
 }
 
+:root {
+  --jan-gradient: linear-gradient(135deg, #191970, #000080);
+  --feb-gradient: linear-gradient(135deg, #8B0000, #B22222);
+  --mar-gradient: linear-gradient(135deg, #2E8B57, #3CB371);
+  --apr-gradient: linear-gradient(135deg, #FFD700, #FFA500);
+  --may-gradient: linear-gradient(135deg, #800080, #9932CC);
+  --jun-gradient: linear-gradient(135deg, #4B0082, #6A0DAD);
+  --jul-gradient: linear-gradient(135deg, #B22222, #8B0000);
+  --aug-gradient: linear-gradient(135deg, #4169E1, #1E90FF);
+  --sep-gradient: linear-gradient(135deg, #556B2F, #6B8E23);
+  --oct-gradient: linear-gradient(135deg, #C71585, #DB7093);
+  --nov-gradient: linear-gradient(135deg, #DAA520, #B8860B);
+  --dec-gradient: linear-gradient(135deg, #800000, #A52A2A);
+}
+
+#scriptureContent {
+  color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--jan-gradient); /* default */
+}
+
+#scriptureBox {
+  background: transparent;       /* gradient applied via JS */
+  border-radius: 18px;
+  padding: 16px;
+}
+
+#scriptureContent {
+  background: transparent;       /* make inner content transparent */
+  color: #FFFFFF;                /* text color over gradient */
+  font-size: 15px;
+}
